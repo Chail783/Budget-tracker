@@ -10,18 +10,17 @@
   <p>Track your income and spending.</p>
 
   <form>
-    <input type="text" placeholder="Description (e.g. Lunch)">
-    <input type="number" placeholder="Amount">
-    <select>
+    <input type="text" id="description" placeholder="Description (e.g. Lunch)">
+    <input type="number" id="amount" placeholder="Amount">
+    <select id="type">
       <option>Income</option>
       <option>Expense</option>
     </select>
-    <button type="button">Add</button>
+    <button type="button" id="add-btn">Add</button>
   </form>
 
   <h2>Entries</h2>
-  <ul>
-    <li>Example entry</li>
-  </ul>
+  <ul id="entries"></ul>
+    <script src="script.js"></script>
 </body>
 </html>
