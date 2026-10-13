@@ -2,6 +2,7 @@
 const descriptionInput = document.getElementById("description");
 const amountInput = document.getElementById("amount");
 const typeSelect = document.getElementById("type");
+const categorySelect = document.getElementById("category");
 const addButton = document.getElementById("add-btn");
 const entriesList = document.getElementById("entries");
 
@@ -28,8 +29,11 @@ function render() {
   let totalExpense = 0;
 
   entries.forEach(function (entry, index) {
+    const category = entry.category || "Other";
+
     const item = document.createElement("li");
-    item.textContent = entry.type + ": " + entry.description + " - " + entry.amount + " ";
+    item.textContent =
+      entry.type + " (" + category + "): " + entry.description + " - " + entry.amount + " ";
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -58,6 +62,7 @@ addButton.addEventListener("click", function () {
   const description = descriptionInput.value;
   const amount = amountInput.value;
   const type = typeSelect.value;
+  const category = categorySelect.value;
 
   if (description === "" || amount === "") {
     return;
@@ -66,7 +71,8 @@ addButton.addEventListener("click", function () {
   entries.push({
     description: description,
     amount: Number(amount),
-    type: type
+    type: type,
+    category: category
   });
 
   saveEntries();
