@@ -1,3 +1,4 @@
+
 const descriptionInput = document.getElementById("description");
 const amountInput = document.getElementById("amount");
 const typeSelect = document.getElementById("type");
@@ -26,9 +27,19 @@ function render() {
   let totalIncome = 0;
   let totalExpense = 0;
 
-  entries.forEach(function (entry) {
+  entries.forEach(function (entry, index) {
     const item = document.createElement("li");
-    item.textContent = entry.type + ": " + entry.description + " - " + entry.amount;
+    item.textContent = entry.type + ": " + entry.description + " - " + entry.amount + " ";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", function () {
+      entries.splice(index, 1);
+      saveEntries();
+      render();
+    });
+
+    item.appendChild(deleteButton);
     entriesList.appendChild(item);
 
     if (entry.type === "Income") {
