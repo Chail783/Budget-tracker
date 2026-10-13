@@ -8,8 +8,40 @@ const incomeDisplay = document.getElementById("total-income");
 const expenseDisplay = document.getElementById("total-expense");
 const balanceDisplay = document.getElementById("balance");
 
-let totalIncome = 0;
-let totalExpense = 0;
+let entries = [];
+
+function saveEntries() {
+  localStorage.setItem("entries", JSON.stringify(entries));
+}
+
+function loadEntries() {
+  const saved = localStorage.getItem("entries");
+  if (saved) {
+    entries = JSON.parse(saved);
+  }
+}
+
+function render() {
+  entriesList.innerHTML = "";
+  let totalIncome = 0;
+  let totalExpense = 0;
+
+  entries.forEach(function (entry) {
+    const item = document.createElement("li");
+    item.textContent = entry.type + ": " + entry.description + " - " + entry.amount;
+    entriesList.appendChild(item);
+
+    if (entry.type === "Income") {
+      totalIncome = totalIncome + entry.amount;
+    } else {
+      totalExpense = totalExpense + entry.amount;
+    }
+  });
+
+  incomeDisplay.textContent = totalIncome;
+  expenseDisplay.textContent = totalExpense;
+  balanceDisplay.textContent = totalIncome - totalExpense;
+}
 
 addButton.addEventListener("click", function () {
   const description = descriptionInput.value;
@@ -20,22 +52,18 @@ addButton.addEventListener("click", function () {
     return;
   }
 
-  const amountNumber = Number(amount);
+  entries.push({
+    description: description,
+    amount: Number(amount),
+    type: type
+  });
 
-  if (type === "Income") {
-    totalIncome = totalIncome + amountNumber;
-  } else {
-    totalExpense = totalExpense + amountNumber;
-  }
-
-  incomeDisplay.textContent = totalIncome;
-  expenseDisplay.textContent = totalExpense;
-  balanceDisplay.textContent = totalIncome - totalExpense;
-
-  const item = document.createElement("li");
-  item.textContent = type + ": " + description + " - " + amount;
-  entriesList.appendChild(item);
+  saveEntries();
+  render();
 
   descriptionInput.value = "";
   amountInput.value = "";
 });
+
+loadEntries();
+render();
