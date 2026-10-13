@@ -2,6 +2,8 @@
 
 A simple web app for tracking income and expenses, built with HTML, CSS and JavaScript.
 
+**Live demo:** https://chail783.github.io/budget-tracker/
+
 ## Features
 - Add income and expense entries
 - See total income, total expenses and balance
