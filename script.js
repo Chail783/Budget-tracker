@@ -11,6 +11,7 @@ const expenseDisplay = document.getElementById("total-expense");
 const balanceDisplay = document.getElementById("balance");
 
 let entries = [];
+let chart = null;
 
 function saveEntries() {
   localStorage.setItem("entries", JSON.stringify(entries));
@@ -21,6 +22,41 @@ function loadEntries() {
   if (saved) {
     entries = JSON.parse(saved);
   }
+}
+
+function updateChart() {
+  if (typeof Chart === "undefined") {
+    return;
+  }
+
+  const totals = {};
+  entries.forEach(function (entry) {
+    if (entry.type === "Expense") {
+      const category = entry.category || "Other";
+      totals[category] = (totals[category] || 0) + entry.amount;
+    }
+  });
+
+  const labels = Object.keys(totals);
+  const values = Object.values(totals);
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  chart = new Chart(document.getElementById("category-chart"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{ label: "Spending", data: values, backgroundColor: "#2c7be5" }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
 }
 
 function render() {
@@ -56,6 +92,8 @@ function render() {
   incomeDisplay.textContent = totalIncome;
   expenseDisplay.textContent = totalExpense;
   balanceDisplay.textContent = totalIncome - totalExpense;
+
+  updateChart();
 }
 
 addButton.addEventListener("click", function () {
