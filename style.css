@@ -167,4 +167,50 @@ form button:hover {
 
 form button i {
   margin-right: 6px;
+}.hidden {
+  display: none !important;
+}
+
+.lock-screen {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lock-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 32px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lock-box h1 {
+  margin: 0;
+  color: #4f46e5;
+  font-size: 1.8rem;
+}
+
+.lock-box p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.lock-box button {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lock-error {
+  color: #b91c1c !important;
+  min-height: 1.2em;
 }
