@@ -21,6 +21,10 @@ const categoryIcons = {
 let entries = [];
 let chart = null;
 
+function formatKsh(amount) {
+  return "Ksh " + amount.toLocaleString("en-KE");
+}
+
 function saveEntries() {
   localStorage.setItem("entries", JSON.stringify(entries));
 }
@@ -56,7 +60,7 @@ function updateChart() {
     type: "bar",
     data: {
       labels: labels,
-      datasets: [{ label: "Spending", data: values, backgroundColor: "#2c7be5" }]
+      datasets: [{ label: "Spending (Ksh)", data: values, backgroundColor: "#2c7be5" }]
     },
     options: {
       responsive: true,
@@ -83,16 +87,18 @@ function render() {
     info.appendChild(icon);
     info.appendChild(
       document.createTextNode(
-        " " + entry.type + " (" + category + "): " + entry.description + " - " + entry.amount
+        " " + entry.type + " (" + category + "): " + entry.description + " - " + formatKsh(entry.amount)
       )
     );
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = '<i class="bi bi-trash"></i> Delete';
     deleteButton.addEventListener("click", function () {
-      entries.splice(index, 1);
-      saveEntries();
-      render();
+      if (confirm("Delete this transaction?")) {
+        entries.splice(index, 1);
+        saveEntries();
+        render();
+      }
     });
 
     item.appendChild(info);
@@ -106,9 +112,9 @@ function render() {
     }
   });
 
-  incomeDisplay.textContent = totalIncome;
-  expenseDisplay.textContent = totalExpense;
-  balanceDisplay.textContent = totalIncome - totalExpense;
+  incomeDisplay.textContent = formatKsh(totalIncome);
+  expenseDisplay.textContent = formatKsh(totalExpense);
+  balanceDisplay.textContent = formatKsh(totalIncome - totalExpense);
 
   updateChart();
 }
@@ -135,6 +141,11 @@ addButton.addEventListener("click", function () {
 
   descriptionInput.value = "";
   amountInput.value = "";
+
+  addButton.classList.add("added");
+  setTimeout(function () {
+    addButton.classList.remove("added");
+  }, 600);
 });
 
 loadEntries();

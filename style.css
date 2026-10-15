@@ -213,4 +213,20 @@ form button i {
 .lock-error {
   color: #b91c1c !important;
   min-height: 1.2em;
+}#entries button {
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+form button {
+  transition: background 0.2s, transform 0.1s;
+}
+
+form button:active {
+  transform: scale(0.97);
+}
+
+form button.added {
+  background: #10b981;
 }
