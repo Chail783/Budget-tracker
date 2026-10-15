@@ -149,4 +149,8 @@ form button:hover {
   .cards, .grid {
     grid-template-columns: 1fr;
   }
+}.card .label i {
+  font-size: 1.3rem;
+  margin-right: 6px;
+  vertical-align: -2px;
 }
