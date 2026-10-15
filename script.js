@@ -10,6 +10,14 @@ const incomeDisplay = document.getElementById("total-income");
 const expenseDisplay = document.getElementById("total-expense");
 const balanceDisplay = document.getElementById("balance");
 
+const categoryIcons = {
+  Food: "bi-egg-fried",
+  Transport: "bi-bus-front",
+  Bills: "bi-receipt",
+  Education: "bi-book",
+  Other: "bi-three-dots"
+};
+
 let entries = [];
 let chart = null;
 
@@ -68,17 +76,26 @@ function render() {
     const category = entry.category || "Other";
 
     const item = document.createElement("li");
-    item.textContent =
-      entry.type + " (" + category + "): " + entry.description + " - " + entry.amount + " ";
+
+    const info = document.createElement("span");
+    const icon = document.createElement("i");
+    icon.className = "bi " + (categoryIcons[category] || "bi-three-dots");
+    info.appendChild(icon);
+    info.appendChild(
+      document.createTextNode(
+        " " + entry.type + " (" + category + "): " + entry.description + " - " + entry.amount
+      )
+    );
 
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
+    deleteButton.innerHTML = '<i class="bi bi-trash"></i> Delete';
     deleteButton.addEventListener("click", function () {
       entries.splice(index, 1);
       saveEntries();
       render();
     });
 
+    item.appendChild(info);
     item.appendChild(deleteButton);
     entriesList.appendChild(item);
 
